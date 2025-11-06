@@ -6,43 +6,21 @@ import android.text.format.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
-
 @SuppressLint("ConstantLocale")
-fun formatDate(context: Context, dateString: String?): String {
-    if (dateString.isNullOrEmpty()) return ""
+fun formatDate(context: Context, timestamp: Long?): String {
+    if (timestamp == null || timestamp == 0L) return ""
 
-    val utc = TimeZone.getTimeZone("UTC")
+    val date = Date(timestamp)
     val locale = Locale.getDefault()
-
-    val possibleFormats = listOf(
-        "yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'",
-        "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'",
-        "yyyy-MM-dd'T'HH:mm:ss'Z'",
-        "yyyy-MM-dd HH:mm:ss",
-        "yyyy-MM-dd'T'HH:mm:ssXXX"
-    )
-
-    var date: Date? = null
-    for (pattern in possibleFormats) {
-        try {
-            val parser = SimpleDateFormat(pattern, locale).apply { timeZone = utc }
-            date = parser.parse(dateString)
-            if (date != null) break
-        } catch (_: Exception) { }
-    }
-
-    if (date == null) return ""
 
     val now = Calendar.getInstance()
     val then = Calendar.getInstance().apply { time = date }
 
-    // compute difference in milliseconds for minute/hour wording
     val diffMillis = now.timeInMillis - then.timeInMillis
     val diffSeconds = diffMillis / 1000
     val diffMinutes = diffSeconds / 60
     val diffHours = diffMinutes / 60
 
-    // compute calendar-aware day difference (zero midnight-to-midnight)
     fun daysBetween(a: Calendar, b: Calendar): Long {
         val ca = a.clone() as Calendar
         val cb = b.clone() as Calendar
@@ -54,7 +32,6 @@ fun formatDate(context: Context, dateString: String?): String {
 
     val dayDiff = daysBetween(then, now)
 
-    // respect device 24h setting
     val is24Hour = DateFormat.is24HourFormat(context)
     val timePattern = if (is24Hour) "HH:mm" else "hh:mm a"
     val outputTime = SimpleDateFormat(timePattern, locale)

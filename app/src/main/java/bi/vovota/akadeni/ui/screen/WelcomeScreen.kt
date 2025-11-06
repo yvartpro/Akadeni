@@ -32,6 +32,7 @@ import bi.vovota.akadeni.ui.theme.Spacings
 import bi.vovota.akadeni.viewmodel.LoanViewModel
 import bi.vovota.akadeni.R
 import bi.vovota.akadeni.ui.components.DraggableSheet
+import bi.vovota.akadeni.utils.Logger
 
 @Composable
 fun WelcomeScreen(viewModel: LoanViewModel) {
@@ -73,7 +74,9 @@ fun WelcomeScreen(viewModel: LoanViewModel) {
       }
     }
 
-    TextButton(onClick = { viewModel.toggleShowCreateSheet() }) {
+    TextButton(onClick = { viewModel.toggleShowCreateSheet()
+      Logger.d("Loans", loans.toString())
+    }) {
       TitleText(value = "All loans")
     }
     when {
@@ -98,7 +101,7 @@ fun WelcomeScreen(viewModel: LoanViewModel) {
               DetailText(value = "Full name: ${loan.name}")
               Spacer(Modifier.height(Spacings.xs()))
               DetailText(value = "Amount: ${loan.amount}")
-              SmallText(text = formatDate(context, loan.createdAt.toString()))
+              SmallText(text = formatDate(context, loan.createdAt))
             }
           }
         }
