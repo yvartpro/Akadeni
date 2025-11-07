@@ -56,13 +56,6 @@ dependencies {
   debugImplementation(libs.androidx.compose.ui.tooling)
   debugImplementation(libs.androidx.compose.ui.test.manifest)
 
-  //accompanist compose
-  implementation("com.google.accompanist:accompanist-placeholder-material:0.32.0")
-  implementation("com.google.accompanist:accompanist-swiperefresh:0.32.0")
-
-  //navigation
-  implementation("androidx.navigation:navigation-compose:2.6.0")
-
   //VM
   implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
 

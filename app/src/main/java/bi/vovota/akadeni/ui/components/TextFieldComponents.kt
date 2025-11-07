@@ -89,7 +89,6 @@ fun InputField(
 ) {
   val keyBoardController = LocalSoftwareKeyboardController.current
   OutlinedTextField(
-    modifier = modifier.fillMaxWidth(),
     value = value,
     onValueChange = onValueChange,
     label = { Text(label, fontSize = FontSizes.caption()) },
@@ -101,7 +100,7 @@ fun InputField(
           Row(
             modifier = Modifier.padding(horizontal = Spacings.sm()),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(4.dp)
+            horizontalArrangement = Arrangement.spacedBy(2.dp)
           ) {
             (leading as? Painter)?.let {
               Icon(

@@ -14,6 +14,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import bi.vovota.akadeni.ui.theme.FontSizes
 import bi.vovota.akadeni.ui.theme.Spacings
@@ -22,6 +23,7 @@ import bi.vovota.akadeni.ui.theme.Spacings
 @Composable
 fun DraggableSheet(
   title: String,
+  error: String,
   onDismiss: () -> Unit,
   content: @Composable ColumnScope.()-> Unit,
 ) {
@@ -34,15 +36,21 @@ fun DraggableSheet(
         modifier = Modifier
           .fillMaxWidth()
           .padding(horizontal = 16.dp)
+          .padding(bottom = 24.dp)
           .imePadding()
       ) {
         Column(
           modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp),
           horizontalAlignment = Alignment.CenterHorizontally
-        ) { Text(
+        ) {
+          if (error.isNotBlank()) {
+            SmallText(error, color = MaterialTheme.colorScheme.error)
+          }
+          Text(
           text = title,
-          style = MaterialTheme.typography.headlineSmall,
-          fontSize = FontSizes.title()) }
+            fontWeight = FontWeight.Bold, fontSize = FontSizes.body(),
+          style = MaterialTheme.typography.bodyLarge)
+        }
         Spacer(Modifier.height(Spacings.xs()))
         content()
       }
