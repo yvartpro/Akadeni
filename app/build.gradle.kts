@@ -55,15 +55,15 @@ dependencies {
   androidTestImplementation(libs.androidx.compose.ui.test.junit4)
   debugImplementation(libs.androidx.compose.ui.tooling)
   debugImplementation(libs.androidx.compose.ui.test.manifest)
-
   //VM
   implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
-
   //room
   implementation("androidx.room:room-runtime:2.6.0")
   implementation("androidx.room:room-ktx:2.6.0")
   kapt("androidx.room:room-compiler:2.6.0")
 
-  //coroutines
   implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+
+  //dataStore
+  implementation("androidx.datastore:datastore-preferences:1.0.0")
 }

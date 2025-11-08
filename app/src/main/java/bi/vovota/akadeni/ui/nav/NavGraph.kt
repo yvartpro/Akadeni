@@ -28,21 +28,32 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import bi.vovota.akadeni.viewmodel.LoanViewModel
 import bi.vovota.akadeni.R
+import bi.vovota.akadeni.ui.components.DropDownMenu
 import bi.vovota.akadeni.ui.components.FAB
 import bi.vovota.akadeni.ui.screen.HomeScreen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NavGraph(viewModel: LoanViewModel) {
+fun NavGraph(
+  viewModel: LoanViewModel,
+  lang: String,
+  onLangChange: (String) -> Unit
+) {
   val context = LocalContext.current
   var lastPressTime by remember { mutableLongStateOf(0L) }
   val searchMode by viewModel.searchMode.collectAsState()
   val query by viewModel.query.collectAsState()
+  val languages = listOf(
+    "rn" to "Kirundi",
+    "en" to "English",
+    "fr" to "Francais"
+  )
 
   BackHandler {
     val currTime = System.currentTimeMillis()
@@ -50,7 +61,7 @@ fun NavGraph(viewModel: LoanViewModel) {
       (context as Activity).finish()
     } else {
       lastPressTime = currTime
-      Toast.makeText(context, "Appuyez a nouveau pour quitter", Toast.LENGTH_SHORT).show()
+      Toast.makeText(context, "Touch again to exit", Toast.LENGTH_SHORT).show()
     }
   }
 
@@ -94,6 +105,11 @@ fun NavGraph(viewModel: LoanViewModel) {
               modifier = Modifier.size(24.dp)
             )
           }
+          DropDownMenu(
+            menuItems = languages,
+            icon = R.drawable.lang,
+            onItemClick = { selectedCode-> onLangChange(selectedCode) }
+          )
         }
       )
     },

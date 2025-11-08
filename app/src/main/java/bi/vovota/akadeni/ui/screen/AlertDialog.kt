@@ -12,6 +12,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -23,6 +24,7 @@ import bi.vovota.akadeni.ui.components.SmallText
 import bi.vovota.akadeni.ui.theme.FontSizes
 import bi.vovota.akadeni.viewmodel.LoanViewModel
 import bi.vovota.akadeni.R
+import bi.vovota.akadeni.utils.localizedString
 
 @Composable
 fun AlertDialogModal(
@@ -34,18 +36,18 @@ fun AlertDialogModal(
   val error by viewModel.error.collectAsState()
   AlertDialog(
     onDismissRequest = onDismiss,
-    title = { Text("Update payment", fontWeight = FontWeight.Bold, fontSize = FontSizes.body())},
+    title = { Text(localizedString(R.string.update_pt), fontWeight = FontWeight.Bold, fontSize = FontSizes.body())},
     text = {
       Column {
         if (error.isNotBlank()) {
           SmallText(error, color = MaterialTheme.colorScheme.error)
         }
-        Text("Enter the paid amount for ${loan.name}")
+        Text(localizedString(R.string.enter_paid, loan.name))
         Spacer(Modifier.height(8.dp))
         InputField(
           value = paidAmount,
           onValueChange = { viewModel.setNewAmount(it) },
-          label = "Amount",
+          label = localizedString(R.string.amount),
           keyboardType = KeyboardType.Decimal,
           imeAction = ImeAction.Done,
           onImeAction = { viewModel.updateLoan(loan)},
@@ -54,13 +56,13 @@ fun AlertDialogModal(
       }
     },
     confirmButton = {
-      MyButton(text = "Confirm") {
+      MyButton(text = localizedString(R.string.update)) {
         viewModel.updateLoan(loan)
         onDismiss
       }
     },
     dismissButton = {
-      TextButton(onClick = onDismiss ) { Text("Cancel")}
+      TextButton(onClick = onDismiss ) { Text(localizedString(R.string.cancel))}
     }
   )
 }

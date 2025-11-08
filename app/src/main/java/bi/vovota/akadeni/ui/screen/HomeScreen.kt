@@ -22,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -33,6 +34,7 @@ import bi.vovota.akadeni.data.local.model.Loan
 import bi.vovota.akadeni.ui.components.DraggableSheet
 import bi.vovota.akadeni.ui.components.MyButton
 import bi.vovota.akadeni.ui.theme.Spacings
+import bi.vovota.akadeni.utils.localizedString
 
 @Composable
 fun HomeScreen(
@@ -59,7 +61,7 @@ fun HomeScreen(
   ) {
     if (isSheetVisible) {
       DraggableSheet(
-        title = "Create loan",
+        title = localizedString(R.string.create_loan),
         error = error,
         onDismiss = { viewModel.toggleShowCreateSheet() }
       ) {
@@ -67,7 +69,7 @@ fun HomeScreen(
           value = name,
           onValueChange = { viewModel.setName(it)},
           imeAction = ImeAction.Next,
-          label = "Full name",
+          label = localizedString(R.string.full_name),
           leading = painterResource(R.drawable.person)
         )
         InputField(
@@ -75,7 +77,7 @@ fun HomeScreen(
           onValueChange = { viewModel.setAmount(it)},
           imeAction = ImeAction.Done,
           onImeAction = { viewModel.createLoan()},
-          label = "Amount",
+          label = localizedString(R.string.amount),
           keyboardType = KeyboardType.Number,
           leading = painterResource(R.drawable.money)
         )
@@ -83,7 +85,7 @@ fun HomeScreen(
           modifier = Modifier.fillMaxWidth().padding(vertical = Spacings.sm()),
           horizontalArrangement = Arrangement.End
         ) {
-          MyButton(text = "Add now") { viewModel.createLoan() }
+          MyButton(text = localizedString(R.string.add_now)) { viewModel.createLoan() }
         }
       }
     }
@@ -103,7 +105,7 @@ fun HomeScreen(
               .padding(Spacings.lg())
           ) {
             Text(
-              text = "No loan to show",
+              text = localizedString(R.string.no_loan),
               color = MaterialTheme.colorScheme.onSurface.copy(0.6f),
               modifier = Modifier.padding(Spacings.lg())
             )

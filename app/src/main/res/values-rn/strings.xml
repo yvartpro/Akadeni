@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="amount">Igitigiri</string>
+    <string name="paid">Ayarishwe: %s Fbu</string>
+    <string name="full_name">Amazina</string>
+    <string name="add_now">Ongerako</string>
+    <string name="update_pt">Kuriha akadeni</string>
+    <string name="cancel">Vayo</string>
+    <string name="update">Emeza</string>
+    <string name="search">Rondera…</string>
+    <string name="amount_fb">Yose: %s Fbu</string>
+    <string name="no_loan">Nta gikorwa kirimwo</string>
+    <string name="enter_paid">Injizamwo ayarishwe na %s</string>
+    <string name="create_loan">Akandi kadeni</string>
+    <string name="touch_2">Korako irindi usohoke</string>
+</resources>

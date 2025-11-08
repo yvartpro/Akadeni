@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="amount">Montant</string>
+    <string name="paid">Paye: %s Fbu</string>
+    <string name="full_name">Nom complet</string>
+    <string name="add_now">Ajouter</string>
+    <string name="update_pt">Modifier le paiement</string>
+    <string name="cancel">Annuler</string>
+    <string name="update">Modifier</string>
+    <string name="search">Rechercher…</string>
+    <string name="amount_fb">Montant: %s Fbu</string>
+    <string name="no_loan">Pas de dette</string>
+    <string name="enter_paid">Entrez le montant paye pour %s</string>
+    <string name="create_loan">Nouvelle dette</string>
+    <string name="touch_2">Touchez a nouveau pour quitter</string>
+</resources>

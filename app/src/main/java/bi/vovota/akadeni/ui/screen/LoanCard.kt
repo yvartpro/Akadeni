@@ -21,11 +21,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import bi.vovota.akadeni.data.local.model.Loan
 import bi.vovota.akadeni.data.local.model.LoanStatus
 import bi.vovota.akadeni.utils.formatDate
+import bi.vovota.akadeni.R
+import bi.vovota.akadeni.utils.localizedString
 
 @Composable
 fun LoanCard(
@@ -78,17 +81,17 @@ fun LoanCard(
       ) {
         Column {
           Text(
-            text = "Amount: ${loan.amount} Fbu",
+            text = localizedString(R.string.amount_fb, loan.amount),
             style = MaterialTheme.typography.bodyMedium
           )
           Text(
-            text = "Paid: ${loan.paid} Fbu",
+            text = localizedString(R.string.paid, loan.paid),
             style = MaterialTheme.typography.bodyMedium
           )
         }
         if (loan.status != LoanStatus.PAID)
           Text(
-            text = "- ${loan.amount - loan.paid} Fbu",
+            text = localizedString(R.string.remain, loan.amount - loan.paid),
             style = MaterialTheme.typography.bodyMedium,
             fontWeight = FontWeight.SemiBold
           )

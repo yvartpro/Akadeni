@@ -1,4 +1,4 @@
-package bi.clubtechlac.moxcred.ui.app.components
+package bi.vovota.akadeni.ui.components
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer

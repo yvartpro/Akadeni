@@ -2,15 +2,20 @@ package bi.vovota.akadeni.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import bi.vovota.akadeni.data.local.AppPrefsManager
 import bi.vovota.akadeni.data.local.model.Loan
 import bi.vovota.akadeni.data.local.model.LoanStatus
 import bi.vovota.akadeni.data.repo.LoanRepo
-import bi.vovota.akadeni.utils.Logger
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
-class LoanViewModel(private val dao: LoanRepo): ViewModel() {
+class LoanViewModel(
+  private val dao: LoanRepo,
+  private val appPrefs: AppPrefsManager
+): ViewModel() {
   private val _loans = MutableStateFlow<List<Loan>>(emptyList())
   val loans = _loans.asStateFlow()
 
@@ -64,6 +69,18 @@ class LoanViewModel(private val dao: LoanRepo): ViewModel() {
   init {
     viewModelScope.launch {
       dao.getLoans().collect { _loans.value = it }
+    }
+  }
+
+  val lang = appPrefs.locale.stateIn(
+    scope = viewModelScope,
+    started = SharingStarted.WhileSubscribed(5000),
+    initialValue = "rn"
+  )
+
+  fun setLocale(newLang: String) {
+    viewModelScope.launch {
+      appPrefs.saveLocale(newLang)
     }
   }
 
