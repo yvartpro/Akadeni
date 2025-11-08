@@ -28,7 +28,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -42,7 +41,6 @@ import bi.vovota.akadeni.ui.screen.HomeScreen
 @Composable
 fun NavGraph(
   viewModel: LoanViewModel,
-  lang: String,
   onLangChange: (String) -> Unit
 ) {
   val context = LocalContext.current
@@ -52,7 +50,7 @@ fun NavGraph(
   val languages = listOf(
     "rn" to "Kirundi",
     "en" to "English",
-    "fr" to "Francais"
+    "fr" to "Français"
   )
 
   BackHandler {

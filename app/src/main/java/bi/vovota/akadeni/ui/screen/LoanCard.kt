@@ -63,7 +63,10 @@ fun LoanCard(
           fontWeight = FontWeight.Bold
         )
         Text(
-          text = loan.status.name.lowercase().replaceFirstChar { it.uppercase() },
+          text = if (loan.status == LoanStatus.PAID)
+              loan.status.name.lowercase().replaceFirstChar { it.uppercase() }
+            else
+              localizedString(R.string.remain, loan.amount - loan.paid),
           style = MaterialTheme.typography.bodyMedium,
           color = when(loan.status) {
             LoanStatus.PENDING -> MaterialTheme.colorScheme.onSurfaceVariant
@@ -72,29 +75,16 @@ fun LoanCard(
           }
         )
       }
-
       Spacer(modifier = Modifier.height(4.dp))
-
-      Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween
-      ) {
-        Column {
-          Text(
-            text = localizedString(R.string.amount_fb, loan.amount),
-            style = MaterialTheme.typography.bodyMedium
-          )
-          Text(
-            text = localizedString(R.string.paid, loan.paid),
-            style = MaterialTheme.typography.bodyMedium
-          )
-        }
-        if (loan.status != LoanStatus.PAID)
-          Text(
-            text = localizedString(R.string.remain, loan.amount - loan.paid),
-            style = MaterialTheme.typography.bodyMedium,
-            fontWeight = FontWeight.SemiBold
-          )
+      Column(modifier = Modifier.fillMaxWidth()) {
+        Text(
+          text = localizedString(R.string.amount_fb, loan.amount),
+          style = MaterialTheme.typography.bodyMedium
+        )
+        Text(
+          text = localizedString(R.string.paid, loan.paid),
+          style = MaterialTheme.typography.bodyMedium
+        )
       }
       Row(
         modifier = Modifier.fillMaxWidth(),

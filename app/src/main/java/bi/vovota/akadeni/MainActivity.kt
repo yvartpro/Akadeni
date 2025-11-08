@@ -45,7 +45,6 @@ class MainActivity : ComponentActivity() {
         AkadeniTheme {
           NavGraph(
             viewModel = viewModel,
-            lang = lang,
             onLangChange = { newLang ->
               viewModel.setLocale(newLang)
             }
