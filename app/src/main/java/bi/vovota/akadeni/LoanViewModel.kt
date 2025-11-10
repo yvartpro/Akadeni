@@ -1,4 +1,4 @@
-package bi.vovota.akadeni.viewmodel
+package bi.vovota.akadeni
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -13,8 +13,8 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class LoanViewModel(
-  private val dao: LoanRepo,
-  private val appPrefs: AppPrefsManager
+    private val dao: LoanRepo,
+    private val appPrefs: AppPrefsManager
 ): ViewModel() {
   private val _loans = MutableStateFlow<List<Loan>>(emptyList())
   val loans = _loans.asStateFlow()
@@ -68,13 +68,13 @@ class LoanViewModel(
 
   init {
     viewModelScope.launch {
-      dao.getLoans().collect { _loans.value = it }
+      getLoans()
     }
   }
 
   val lang = appPrefs.locale.stateIn(
     scope = viewModelScope,
-    started = SharingStarted.WhileSubscribed(5000),
+    started = SharingStarted.Companion.WhileSubscribed(5000),
     initialValue = "rn"
   )
 
@@ -84,16 +84,24 @@ class LoanViewModel(
     }
   }
 
+  fun getLoans() {
+    viewModelScope.launch {
+      dao.getLoans().collect { _loans.value = it }
+    }
+  }
+
   fun createLoan() {
     if (_name.value.isBlank() || _amount.value.isBlank()) {
       _error.value = "All fields are required"
       return
     }
     viewModelScope.launch {
-      dao.createLoan(Loan(
-        name = _name.value,
-        amount = _amount.value.toDouble()
-      ))
+      dao.createLoan(
+          Loan(
+              name = _name.value,
+              amount = _amount.value.toDouble()
+          )
+      )
       clearForm()
       toggleShowCreateSheet()
       _error.value = ""

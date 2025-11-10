@@ -14,4 +14,5 @@
     <string name="no_loan">No loan to show</string>
     <string name="enter_paid">Enter the paid amount for %s</string>
     <string name="touch_2">Touch again to exit</string>
+    <string name="unpaid" translatable="false">%s Fbu</string>
 </resources>

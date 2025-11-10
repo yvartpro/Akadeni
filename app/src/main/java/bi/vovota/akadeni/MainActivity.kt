@@ -18,7 +18,7 @@ import bi.vovota.akadeni.data.repo.LoanRepo
 import bi.vovota.akadeni.ui.nav.NavGraph
 import bi.vovota.akadeni.ui.theme.AkadeniTheme
 import bi.vovota.akadeni.utils.LocaleHelper
-import bi.vovota.akadeni.viewmodel.LoanViewModel
+import bi.vovota.akadeni.LoanViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

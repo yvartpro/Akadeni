@@ -5,6 +5,7 @@ import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -31,11 +32,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import bi.vovota.akadeni.viewmodel.LoanViewModel
+import bi.vovota.akadeni.LoanViewModel
 import bi.vovota.akadeni.R
 import bi.vovota.akadeni.ui.components.DropDownMenu
 import bi.vovota.akadeni.ui.components.FAB
 import bi.vovota.akadeni.ui.screen.HomeScreen
+import bi.vovota.akadeni.utils.localizedString
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -47,6 +49,9 @@ fun NavGraph(
   var lastPressTime by remember { mutableLongStateOf(0L) }
   val searchMode by viewModel.searchMode.collectAsState()
   val query by viewModel.query.collectAsState()
+  val loans by viewModel.loans.collectAsState()
+  val total = loans.sumOf { it.amount - it.paid }
+
   val languages = listOf(
     "rn" to "Kirundi",
     "en" to "English",
@@ -89,11 +94,18 @@ fun NavGraph(
               }
             )
           else
-            Text(
-              text = stringResource(R.string.app_name),
-              fontWeight = FontWeight.W700,
-              style = MaterialTheme.typography.titleLarge
-            )
+            Column() {
+              Text(
+                text = stringResource(R.string.app_name),
+                fontWeight = FontWeight.W700,
+                style = MaterialTheme.typography.titleMedium
+              )
+              Text(
+                text = localizedString(R.string.unpaid, total),
+                fontWeight = FontWeight.W400,
+                style = MaterialTheme.typography.bodySmall
+              )
+            }
         },
         actions = {
           IconButton(onClick = { viewModel.toggleSearchMode() }) {

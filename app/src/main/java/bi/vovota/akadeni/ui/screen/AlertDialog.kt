@@ -22,7 +22,7 @@ import bi.vovota.akadeni.ui.components.InputField
 import bi.vovota.akadeni.ui.components.MyButton
 import bi.vovota.akadeni.ui.components.SmallText
 import bi.vovota.akadeni.ui.theme.FontSizes
-import bi.vovota.akadeni.viewmodel.LoanViewModel
+import bi.vovota.akadeni.LoanViewModel
 import bi.vovota.akadeni.R
 import bi.vovota.akadeni.utils.localizedString
 
