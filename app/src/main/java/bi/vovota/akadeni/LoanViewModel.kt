@@ -57,8 +57,12 @@ class LoanViewModel(
     _isCreateSheetVisible.value = !_isCreateSheetVisible.value
     _error.value = ""
   }
-  fun toggleShowAlert() {
+  fun toggleShowAlert(loan: Loan?) {
     _isAlertVisible.value = !_isAlertVisible.value
+    loan?.let {
+      val remainder = it.amount - it.paid
+      _newAmount.value = remainder.toString()
+    }
     _error.value = ""
   }
   fun toggleSearchMode() {
@@ -132,7 +136,7 @@ class LoanViewModel(
       )
       dao.updateLoan(updatedLoan)
       clearForm()
-      toggleShowAlert()
+      toggleShowAlert(null)
       _error.value = ""
     }
   }

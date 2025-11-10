@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -40,8 +41,7 @@ fun LoanCard(
   Card(
     modifier = Modifier
       .fillMaxWidth()
-      .padding(vertical = 4.dp, horizontal = 8.dp)
-      .clickable { onClick() },
+      .padding(vertical = 4.dp, horizontal = 8.dp),
     shape = RoundedCornerShape(12.dp),
     colors = CardDefaults.cardColors(
       containerColor = MaterialTheme.colorScheme.surface
@@ -81,10 +81,25 @@ fun LoanCard(
           text = localizedString(R.string.amount_fb, loan.amount),
           style = MaterialTheme.typography.bodyMedium
         )
-        Text(
-          text = localizedString(R.string.paid, loan.paid),
-          style = MaterialTheme.typography.bodyMedium
-        )
+        Row(
+          modifier = Modifier.fillMaxWidth(),
+          horizontalArrangement = Arrangement.SpaceBetween,
+          verticalAlignment = Alignment.CenterVertically
+        ) {
+          Text(
+            text = localizedString(R.string.paid, loan.paid),
+            style = MaterialTheme.typography.bodyMedium
+          )
+          if (loan.status != LoanStatus.PAID) {
+            IconButton(onClick = onClick ) {
+              Icon(
+                imageVector = Icons.Filled.Edit,
+                contentDescription = "Edit",
+                tint = MaterialTheme.colorScheme.primary
+              )
+            }
+          }
+        }
       }
       Row(
         modifier = Modifier.fillMaxWidth(),
@@ -92,7 +107,7 @@ fun LoanCard(
         verticalAlignment = Alignment.CenterVertically
       ) {
         Text(
-          text = formatDate(context, loan.createdAt),
+          text = formatDate(context, loan.updatedAt),
           style = MaterialTheme.typography.bodySmall,
           color = MaterialTheme.colorScheme.onSurfaceVariant
         )

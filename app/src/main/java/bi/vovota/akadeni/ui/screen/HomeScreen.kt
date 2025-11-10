@@ -28,8 +28,8 @@ import bi.vovota.akadeni.ui.components.InputField
 import bi.vovota.akadeni.LoanViewModel
 import bi.vovota.akadeni.R
 import bi.vovota.akadeni.data.local.model.Loan
+import bi.vovota.akadeni.data.local.model.LoanStatus
 import bi.vovota.akadeni.ui.components.DraggableSheet
-import bi.vovota.akadeni.ui.components.FAB
 import bi.vovota.akadeni.ui.components.MyButton
 import bi.vovota.akadeni.ui.theme.Spacings
 import bi.vovota.akadeni.utils.localizedString
@@ -47,7 +47,9 @@ fun HomeScreen(
   val query by viewModel.query.collectAsState()
   val error by viewModel.error.collectAsState()
 
-  val filteredLoans = loans.filter { it.name.contains(query,ignoreCase = true) }
+  val filteredLoans = loans.filter { it.name.contains(query,ignoreCase = true) }.sortedWith(
+    compareBy<Loan> { it.status == LoanStatus.PAID }.thenByDescending { it.updatedAt }
+  )
   val total = loans.sumOf { it.amount - it.paid }
 
   val context = LocalContext.current
@@ -89,7 +91,7 @@ fun HomeScreen(
       }
     }
     if (showAlert && selectedLoan != null) {
-      AlertDialogModal(loan = selectedLoan!!, viewModel = viewModel) {viewModel.toggleShowAlert()}
+      AlertDialogModal(loan = selectedLoan!!, viewModel = viewModel) {viewModel.toggleShowAlert(selectedLoan)}
     }
     when {
       filteredLoans.isEmpty() -> {
@@ -119,7 +121,7 @@ fun HomeScreen(
             LoanCard(
               loan = loan,
               context = context,
-              onClick = { selectedLoan = loan; viewModel.toggleShowAlert() },
+              onClick = { selectedLoan = loan; viewModel.toggleShowAlert(loan) },
               onDelete = { viewModel.deleteLoan(loan)}
             )
           }
