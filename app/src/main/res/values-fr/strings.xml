@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="amount">Montant</string>
-    <string name="paid">Payé: %s Fbu</string>
+    <string name="paid">Payé: %s</string>
     <string name="full_name">Nom complet</string>
     <string name="add_now">Ajouter</string>
     <string name="update_pt">Modifier le paiement</string>
     <string name="cancel">Annuler</string>
     <string name="update">Modifier</string>
     <string name="search">Rechercher…</string>
-    <string name="amount_fb">Montant: %s Fbu</string>
+    <string name="amount_fb">Montant: %s</string>
     <string name="no_loan">Pas de dette</string>
     <string name="enter_paid">Entrez le montant paye pour %s</string>
     <string name="create_loan">Nouvelle dette</string>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="amount">Kiasi</string>
+    <string name="paid">Kime lipwa: %s</string>
+    <string name="full_name">Jina kamil</string>
+    <string name="add_now">Ongeza sasa</string>
+    <string name="create_loan">Mkopo mpya</string>
+    <string name="update_pt">Hariri malipo</string>
+    <string name="cancel">Ghairi</string>
+    <string name="update">Hariri</string>
+    <string name="search">Tafuta...</string>
+    <string name="amount_fb">Kiasi: %s</string>
+    <string name="no_loan">Hakuna mkopo wa kuonyesha</string>
+    <string name="enter_paid">Ingiza kiasi kilicholipwa na %s</string>
+    <string name="touch_2">Gusa tena ili kutoka</string>
+    <string name="not_paid">Haijalipwa</string>
+    <string name="recently_deleted">Vilivyofutwa karibuni</string>
+    <string name="lang">Lugha</string>
+    <string name="part_paid">Vilvyolipwa kwa sehemu</string>
+    <string name="paid_txt">Vilivyolipwa</string>
+    <string name="all">Vyote</string>
+</resources>

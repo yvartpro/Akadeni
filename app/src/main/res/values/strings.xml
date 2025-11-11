@@ -1,16 +1,16 @@
 <resources>
     <string name="app_name" translatable="false">Akadeni</string>
     <string name="amount">Amount</string>
-    <string name="paid">Paid: %s Fbu</string>
+    <string name="paid">Paid: %s</string>
     <string name="full_name">Full name</string>
     <string name="add_now">Add now</string>
     <string name="create_loan">New loan</string>
-    <string name="update_pt">Update payment</string>
+    <string name="update_pt">Edit payment</string>
     <string name="cancel">Cancel</string>
     <string name="update">Update</string>
     <string name="search">Search…</string>
-    <string name="amount_fb">Amount: %s Fbu</string>
-    <string name="remain" translatable="false">- %s Fbu</string>
+    <string name="amount_fb">Amount: %s</string>
+    <string name="remain" translatable="false">- %s</string>
     <string name="no_loan">No loan to show</string>
     <string name="enter_paid">Enter the paid amount for %s</string>
     <string name="touch_2">Touch again to exit</string>
@@ -18,8 +18,8 @@
     <string name="not_paid">Not paid</string>
     <string name="recently_deleted">Recently deleted</string>
     <string name="lang">Language</string>
-    <string name="powered" translatable="false">Powered by</string>
-    <string name="part_paid">Partially deleted</string>
+    <string name="powered" translatable="false">Inaendeshwa na Vovota Company</string>
+    <string name="part_paid">Partially paid</string>
     <string name="paid_txt">Paid</string>
     <string name="all">All</string>
 </resources>

@@ -76,10 +76,10 @@ fun NavGraph(
 
   val languages = listOf(
     "rn" to "Kirundi",
+    "sw" to "Swahili",
     "en" to "English",
     "fr" to "Français"
   )
-
   BackHandler {
     val currTime = System.currentTimeMillis()
     if (currTime - lastPressTime < 2000) {
