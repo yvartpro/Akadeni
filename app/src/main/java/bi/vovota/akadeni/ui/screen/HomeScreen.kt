@@ -24,6 +24,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import bi.vovota.akadeni.LoanFilter
 import bi.vovota.akadeni.ui.components.InputField
 import bi.vovota.akadeni.LoanViewModel
 import bi.vovota.akadeni.R
@@ -46,11 +47,17 @@ fun HomeScreen(
   var selectedLoan by remember { mutableStateOf<Loan?>(null) }
   val query by viewModel.query.collectAsState()
   val error by viewModel.error.collectAsState()
+  val filter by viewModel.filter.collectAsState()
 
-  val filteredLoans = loans.filter { it.name.contains(query,ignoreCase = true) }.sortedWith(
-    compareBy<Loan> { it.status == LoanStatus.PAID }.thenByDescending { it.updatedAt }
-  )
-  val total = loans.sumOf { it.amount - it.paid }
+  val filteredLoans = when (filter) {
+    LoanFilter.DELETED -> loans.filter { it.isDeleted }.sortedByDescending { it.createdAt }
+    LoanFilter.NOT_PAID -> loans.filter { it.paid < it.amount }.sortedByDescending { it.createdAt }
+    LoanFilter.PART_PAID -> loans.filter { it.paid > 0 && it.paid < it.amount }.sortedByDescending { it.createdAt }
+    LoanFilter.PAID -> loans.filter { it.paid >= it.amount }.sortedByDescending { it.createdAt }
+    else -> loans.filter { !it.isDeleted }.filter { it.name.contains(query,ignoreCase = true) }.sortedWith(
+      compareBy<Loan> { it.status == LoanStatus.PAID }.thenByDescending { it.updatedAt }
+    )
+  }
 
   val context = LocalContext.current
 

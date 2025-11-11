@@ -10,6 +10,7 @@ data class Loan(
   val amount: Double,
   val paid: Double = 0.0,
   val status: LoanStatus = LoanStatus.PENDING,
+  val isDeleted: Boolean = false,
   val updatedAt: Long = System.currentTimeMillis(),
   val createdAt: Long = System.currentTimeMillis()
 )

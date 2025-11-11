@@ -17,7 +17,7 @@ interface LoanDao {
   suspend fun createLoan(loan: Loan)
 
   @Delete
-  suspend fun deleteLoan(loan: Loan)
+  suspend fun deleteLoan(loan: Loan) //
 
   @Update
   suspend fun updateLoan(loan: Loan)

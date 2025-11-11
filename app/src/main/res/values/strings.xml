@@ -15,4 +15,11 @@
     <string name="enter_paid">Enter the paid amount for %s</string>
     <string name="touch_2">Touch again to exit</string>
     <string name="unpaid" translatable="false">%s Fbu</string>
+    <string name="not_paid">Not paid</string>
+    <string name="recently_deleted">Recently deleted</string>
+    <string name="lang">Language</string>
+    <string name="powered" translatable="false">Powered by</string>
+    <string name="part_paid">Partially deleted</string>
+    <string name="paid_txt">Paid</string>
+    <string name="all">All</string>
 </resources>

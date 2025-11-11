@@ -6,6 +6,7 @@ import bi.vovota.akadeni.data.local.AppPrefsManager
 import bi.vovota.akadeni.data.local.model.Loan
 import bi.vovota.akadeni.data.local.model.LoanStatus
 import bi.vovota.akadeni.data.repo.LoanRepo
+import bi.vovota.akadeni.ui.screen.LoanCard
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
@@ -19,6 +20,26 @@ class LoanViewModel(
   private val _loans = MutableStateFlow<List<Loan>>(emptyList())
   val loans = _loans.asStateFlow()
 
+  private val _filter = MutableStateFlow<LoanFilter?>(null)
+  val filter = _filter.asStateFlow()
+
+  fun setHistory() {
+    _filter.value = LoanFilter.NOT_PAID
+  }
+
+  fun setPartPaid() {
+    _filter.value = LoanFilter.PART_PAID
+  }
+  fun setDeleted() {
+    _filter.value = LoanFilter.DELETED
+  }
+  fun setPaid() {
+    _filter.value = LoanFilter.PAID
+  }
+
+  fun setAllLoans(){
+    _filter.value = LoanFilter.ALL
+  }
   private val _name = MutableStateFlow("")
   val name = _name.asStateFlow()
 
@@ -114,7 +135,8 @@ class LoanViewModel(
 
   fun deleteLoan(loan: Loan) {
     viewModelScope.launch {
-      dao.deleteLoan(loan)
+      val deleted = loan.copy(isDeleted = true)
+      dao.updateLoan(deleted)
     }
   }
 
@@ -141,3 +163,5 @@ class LoanViewModel(
     }
   }
 }
+
+enum class LoanFilter { ALL, PAID, DELETED, PART_PAID, NOT_PAID}
