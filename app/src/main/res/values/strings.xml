@@ -22,4 +22,11 @@
     <string name="part_paid">Partially paid</string>
     <string name="paid_txt">Paid</string>
     <string name="all">All</string>
+    <string name="enter_increase">Enter amount added to loan of %s</string>
+    <string name="amount_paid">Amount to pay</string>
+    <string name="amount_to_add">New loan</string>
+    <string name="mark_as_paid">Ok</string>
+    <string name="add_to_loan">Ok</string>
+    <string name="pay">Pay</string>
+    <string name="add">Add loan</string>
 </resources>
