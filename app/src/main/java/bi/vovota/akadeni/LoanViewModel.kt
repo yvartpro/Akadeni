@@ -22,6 +22,17 @@ class LoanViewModel(
 
   private val _filter = MutableStateFlow<LoanFilter?>(null)
   val filter = _filter.asStateFlow()
+  
+  private val _updateAction = MutableStateFlow<LoanAction>(LoanAction.PAY)
+  val updateAction = _updateAction.asStateFlow()
+  
+  fun setActionPay(){
+    _updateAction.value = LoanAction.PAY
+  }
+
+  fun setActionAdd(){
+    _updateAction.value = LoanAction.INCREASE
+  }
 
   fun setHistory() {
     _filter.value = LoanFilter.NOT_PAID
@@ -46,8 +57,8 @@ class LoanViewModel(
   private val _amount = MutableStateFlow("")
   val amount = _amount.asStateFlow()
 
-  private val _newAmount = MutableStateFlow("")
-  val newAmount = _newAmount.asStateFlow()
+  private val _inputAmount = MutableStateFlow("")
+  val inputAmount = _inputAmount.asStateFlow()
 
   private val _query = MutableStateFlow("")
   val query = _query.asStateFlow()
@@ -66,13 +77,13 @@ class LoanViewModel(
 
   fun setName(value: String) = _name.tryEmit(value)
   fun setAmount(value: String) = _amount.tryEmit(value)
-  fun setNewAmount(value: String) = _newAmount.tryEmit(value)
+  fun setinputAmount(value: String) = _inputAmount.tryEmit(value)
   fun setQuery(value: String) = _query.tryEmit(value)
 
   fun clearForm() {
     _name.value = ""
     _amount.value = ""
-    _newAmount.value = ""
+    _inputAmount.value = ""
   }
   fun toggleShowCreateSheet() {
     _isCreateSheetVisible.value = !_isCreateSheetVisible.value
@@ -82,7 +93,7 @@ class LoanViewModel(
     _isAlertVisible.value = !_isAlertVisible.value
     loan?.let {
       val remainder = it.amount - it.paid
-      _newAmount.value = remainder.toString()
+      _inputAmount.value = remainder.toString()
     }
     _error.value = ""
   }
@@ -141,18 +152,20 @@ class LoanViewModel(
   }
 
   fun updateLoan(loan: Loan) {
-    if (_newAmount.value.isBlank()) {
+    if (_inputAmount.value.isBlank()) {
       _error.value = "Please enter a valid amount"
       return
     }
     viewModelScope.launch {
-      val paidAmount = loan.paid + _newAmount.value.toDouble()
+      val inputAmount = loan.paid + _inputAmount.value.toDouble()
+      val newAmount = loan.amount + _inputAmount.value.toDouble()
       val updatedLoan = loan.copy(
-        paid = paidAmount,
+        paid = if (_updateAction.value == LoanAction.PAY) inputAmount else loan.paid,
+        amount = if (_updateAction.value == LoanAction.INCREASE) newAmount else loan.amount,
         updatedAt = System.currentTimeMillis(),
         status = when {
-          loan.amount > paidAmount -> LoanStatus.PARTIAL
-          loan.amount <= paidAmount -> LoanStatus.PAID
+          loan.amount > inputAmount -> LoanStatus.PARTIAL
+          loan.amount <= inputAmount -> LoanStatus.PAID
           else -> LoanStatus.PENDING
         }
       )
@@ -165,3 +178,4 @@ class LoanViewModel(
 }
 
 enum class LoanFilter { ALL, PAID, DELETED, PART_PAID, NOT_PAID}
+enum class LoanAction { PAY, INCREASE }

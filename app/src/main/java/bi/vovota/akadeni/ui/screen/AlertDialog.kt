@@ -28,6 +28,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import bi.vovota.akadeni.LoanAction
 import bi.vovota.akadeni.data.local.model.Loan
 import bi.vovota.akadeni.ui.components.InputField
 import bi.vovota.akadeni.ui.components.MyButton
@@ -43,10 +44,10 @@ fun AlertDialogModal(
   viewModel: LoanViewModel,
   onDismiss: () -> Unit,
 ) {
-  val amount by viewModel.newAmount.collectAsState()
+  val amount by viewModel.inputAmount.collectAsState()
   val error by viewModel.error.collectAsState()
 
-  var action by remember { mutableStateOf(LoanAction.PAY) }
+  val action by viewModel.updateAction.collectAsState()
 
   AlertDialog(
     onDismissRequest = onDismiss,
@@ -65,8 +66,8 @@ fun AlertDialogModal(
 
         // Action chooser (two tabs)
         ActionSelector(
+          viewModel = viewModel,
           selected = action,
-          onSelect = { action = it }
         )
 
         Spacer(Modifier.height(8.dp))
@@ -86,7 +87,7 @@ fun AlertDialogModal(
         // Shared input
         InputField(
           value = amount,
-          onValueChange = { viewModel.setNewAmount(it) },
+          onValueChange = { viewModel.setinputAmount(it) },
           label = when (action) {
             LoanAction.PAY -> localizedString(R.string.amount_paid)
             LoanAction.INCREASE -> localizedString(R.string.amount_to_add)
@@ -94,7 +95,7 @@ fun AlertDialogModal(
           keyboardType = KeyboardType.Decimal,
           imeAction = ImeAction.Done,
           onImeAction = {
-            //viewModel.submitLoanUpdate(loan, action)
+            viewModel.updateLoan(loan)
           },
           leading = painterResource(id = R.drawable.money)
         )
@@ -107,7 +108,7 @@ fun AlertDialogModal(
           LoanAction.INCREASE -> localizedString(R.string.add_to_loan)
         }
       ) {
-        //viewModel.submitLoanUpdate(loan, action)
+        viewModel.updateLoan(loan)
         onDismiss()
       }
     },
@@ -122,8 +123,8 @@ fun AlertDialogModal(
 
 @Composable
 fun ActionSelector(
+  viewModel: LoanViewModel,
   selected: LoanAction,
-  onSelect: (LoanAction) -> Unit
 ) {
   Row(
     modifier = Modifier
@@ -134,14 +135,14 @@ fun ActionSelector(
     ActionTab(
       text = localizedString(R.string.pay),
       selected = selected == LoanAction.PAY,
-      onClick = { onSelect(LoanAction.PAY) },
+      onClick = { viewModel.setActionPay() },
       modifier = Modifier.weight(1f)
     )
 
     ActionTab(
       text = localizedString(R.string.add),
       selected = selected == LoanAction.INCREASE,
-      onClick = { onSelect(LoanAction.INCREASE) },
+      onClick = { viewModel.setActionAdd() },
       modifier = Modifier.weight(1f)
     )
   }
@@ -172,5 +173,3 @@ private fun ActionTab(
     )
   }
 }
-
-enum class LoanAction { PAY, INCREASE }
