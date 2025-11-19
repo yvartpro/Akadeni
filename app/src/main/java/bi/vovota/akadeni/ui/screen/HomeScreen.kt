@@ -61,7 +61,7 @@ fun HomeScreen(
 
     else -> {
       loans
-        .filter { it.name.contains(query, ignoreCase = true) }
+        .filter { it.paid < it.amount }.filter { it.name.contains(query, ignoreCase = true) }
         .sortedWith(
           compareByDescending<Loan> { it.paid == 0.0 }        // unpaid first
             .thenByDescending { it.paid < it.amount }      // then partial

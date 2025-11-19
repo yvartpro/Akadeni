@@ -125,21 +125,21 @@ fun NavGraph(
                 }
               }
               Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                Icon(painterResource(R.drawable.money), "list")
-                TextButton(onClick = { viewModel.setPaid(); closeDrawer() }) {
-                  Text(localizedString(R.string.paid_txt))
-                }
-              }
-              Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                Icon(painterResource(R.drawable.history), "list")
+                Icon(painterResource(R.drawable.history), "not paid")
                 TextButton(onClick = { viewModel.setHistory(); closeDrawer() }) {
                   Text(localizedString(R.string.not_paid))
                 }
               }
               Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                Icon(Icons.Filled.CheckCircle, "pending")
+                Icon(Icons.Filled.CheckCircle, "partially paid")
                 TextButton(onClick = { viewModel.setPartPaid(); closeDrawer() }) {
                   Text(localizedString(R.string.part_paid))
+                }
+              }
+              Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                Icon(painterResource(R.drawable.money), "paid")
+                TextButton(onClick = { viewModel.setPaid(); closeDrawer() }) {
+                  Text(localizedString(R.string.paid_txt))
                 }
               }
               Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
