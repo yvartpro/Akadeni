@@ -20,24 +20,25 @@ fun DropDownMenu(
   label: String? = null,
 ) {
   var expanded by remember { mutableStateOf(false) }
+  val colors = MaterialTheme.colorScheme
 
   Box(modifier = modifier.wrapContentSize(Alignment.Center)) {
     TextButton(onClick = { expanded = !expanded }) {
       if (!label.isNullOrEmpty()) {
-        Text(label)
+        Text(label, color = colors.onSurface)
       }
     }
     DropdownMenu(
       expanded = expanded,
       onDismissRequest = { expanded = false },
-      containerColor = MaterialTheme.colorScheme.background,
+      containerColor = colors.background,
     ) {
       menuItems.forEach { (code, displayName) ->
         DropdownMenuItem(
           text = {
             Text(
               text = displayName,
-              color = MaterialTheme.colorScheme.primary,
+              color = colors.onSurface,
               fontSize = FontSizes.caption()
             )
           },

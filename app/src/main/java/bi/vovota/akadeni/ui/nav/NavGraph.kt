@@ -69,6 +69,7 @@ fun NavGraph(
   val query by viewModel.query.collectAsState()
   val loans by viewModel.loans.collectAsState()
   val total = loans.sumOf { it.amount - it.paid }
+  val colors = MaterialTheme.colorScheme
 
   val drawerState = rememberDrawerState(DrawerValue.Closed)
   val scope = rememberCoroutineScope()
@@ -119,31 +120,31 @@ fun NavGraph(
             }
             Column {
               Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                Icon(painterResource(R.drawable.money), "all")
+                Icon(painterResource(R.drawable.all_list), "all", modifier = Modifier.size(24.dp), tint = colors.primary)
                 TextButton(onClick = { viewModel.setAllLoans(); closeDrawer() }) {
-                  Text(localizedString(R.string.all))
+                  Text(localizedString(R.string.all), color = colors.onSurface)
                 }
               }
               Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                Icon(painterResource(R.drawable.history), "not paid")
+                Icon(painterResource(R.drawable.not_paid), "not paid", modifier = Modifier.size(24.dp), tint = colors.primary)
                 TextButton(onClick = { viewModel.setHistory(); closeDrawer() }) {
-                  Text(localizedString(R.string.not_paid))
+                  Text(localizedString(R.string.not_paid), color = colors.onSurface)
                 }
               }
               Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                Icon(Icons.Filled.CheckCircle, "partially paid")
+                Icon(painterResource(R.drawable.pending), "partially paid", modifier = Modifier.size(24.dp), tint = colors.primary)
                 TextButton(onClick = { viewModel.setPartPaid(); closeDrawer() }) {
-                  Text(localizedString(R.string.part_paid))
+                  Text(localizedString(R.string.part_paid), color = colors.onSurface)
                 }
               }
               Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                Icon(painterResource(R.drawable.money), "paid")
+                Icon(painterResource(R.drawable.paid), "paid", modifier = Modifier.size(24.dp), tint = colors.primary)
                 TextButton(onClick = { viewModel.setPaid(); closeDrawer() }) {
-                  Text(localizedString(R.string.paid_txt))
+                  Text(localizedString(R.string.paid_txt), color = colors.onSurface)
                 }
               }
               Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                Icon(painterResource(R.drawable.lang), "list")
+                Icon(painterResource(R.drawable.lang), "list", tint = colors.primary)
                 DropDownMenu(
                   menuItems = languages,
                   label = localizedString(R.string.lang),
@@ -169,16 +170,16 @@ fun NavGraph(
                 value = query,
                 onValueChange = { viewModel.setQuery(it)},
                 singleLine = true,
-                cursorBrush = SolidColor(MaterialTheme.colorScheme.onSurface),
+                cursorBrush = SolidColor(colors.onSurface),
                 textStyle = MaterialTheme.typography.bodyLarge.copy(
-                  color = MaterialTheme.colorScheme.onSurface
+                  color = colors.onSurface
                 ),
                 decorationBox = { innerTextField->
                   if (query.isEmpty())
                     Text(
                       text = "Search...",
                       style = MaterialTheme.typography.bodyLarge.copy(
-                        color = MaterialTheme.colorScheme.onSurface.copy(0.5f)
+                        color = colors.onSurface.copy(0.5f)
                       )
                     )
                   else
@@ -229,7 +230,7 @@ fun NavGraph(
         modifier = Modifier
           .fillMaxSize()
           .padding(innerPadding)
-          .background(MaterialTheme.colorScheme.surfaceContainer)
+          .background(colors.surfaceContainer)
       ) {
         HomeScreen(viewModel)
       }
