@@ -15,16 +15,25 @@ android {
     applicationId = "bi.vovota.akadeni"
     minSdk = 24
     targetSdk = 36
-    versionCode = 1
-    versionName = "1.0"
+    versionCode = 2
+    versionName = "1.0.1"
 
     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
   }
 
   buildTypes {
     release {
-      isMinifyEnabled = false
+      isMinifyEnabled = true
+      isShrinkResources = true
       proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+    }
+  }
+  splits {
+    abi {
+      isEnable = true
+      reset()
+      include("arm64-v8a")
+      isUniversalApk = false
     }
   }
   compileOptions {
@@ -63,7 +72,6 @@ dependencies {
   kapt("androidx.room:room-compiler:2.6.0")
 
   implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
-
   //dataStore
   implementation("androidx.datastore:datastore-preferences:1.0.0")
 }

@@ -14,19 +14,19 @@ He can also increase loan when client takes new items before total loan is paid.
 
 ## Setup
 
-1. Clone repostory
+1. Clone repository
 ```git
 
 git clone github.com/yvartpro/Akadeni.git
 git clone git@github:yvartpro/Akadeni.git
 
 ```
-2. Setup & requirements
+1. Setup & requirements
 - gradle 8.13
 - android-studio
-3. Permissions 
+1. Permissions 
 None
 
 ## Version 1.0 (beta)
 
-Realeased on November 19, 2025 is a lighter app seamless and adapted to existing loan tracking method (notebook)  but with ease to have loans list on the go.
+Released on November 19, 2025 is a lighter app seamless and adapted to existing loan tracking method (notebook)  but with ease to have loans list on the go.
