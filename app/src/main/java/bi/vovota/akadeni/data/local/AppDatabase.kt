@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import bi.vovota.akadeni.data.local.model.Loan
 
-@Database(entities = [Loan::class], version = 4)
+@Database(entities = [Loan::class], version = 5)
 abstract class AppDatabase: RoomDatabase() {
   abstract fun loanDao(): LoanDao
 

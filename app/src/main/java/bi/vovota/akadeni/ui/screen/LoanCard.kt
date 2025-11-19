@@ -69,7 +69,7 @@ fun LoanCard(
               localizedString(R.string.remain, loan.amount - loan.paid),
           style = MaterialTheme.typography.bodyMedium,
           color = when(loan.status) {
-            LoanStatus.PENDING -> MaterialTheme.colorScheme.onSurfaceVariant
+            LoanStatus.NOT_PAID -> MaterialTheme.colorScheme.onSurfaceVariant
             LoanStatus.PARTIAL -> MaterialTheme.colorScheme.primary
             LoanStatus.PAID -> MaterialTheme.colorScheme.tertiary
           }

@@ -6,7 +6,6 @@ import bi.vovota.akadeni.data.local.AppPrefsManager
 import bi.vovota.akadeni.data.local.model.Loan
 import bi.vovota.akadeni.data.local.model.LoanStatus
 import bi.vovota.akadeni.data.repo.LoanRepo
-import bi.vovota.akadeni.ui.screen.LoanCard
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
@@ -32,6 +31,7 @@ class LoanViewModel(
 
   fun setActionAdd(){
     _updateAction.value = LoanAction.INCREASE
+    _inputAmount.value = ""
   }
 
   fun setHistory() {
@@ -40,9 +40,6 @@ class LoanViewModel(
 
   fun setPartPaid() {
     _filter.value = LoanFilter.PART_PAID
-  }
-  fun setDeleted() {
-    _filter.value = LoanFilter.DELETED
   }
   fun setPaid() {
     _filter.value = LoanFilter.PAID
@@ -77,7 +74,7 @@ class LoanViewModel(
 
   fun setName(value: String) = _name.tryEmit(value)
   fun setAmount(value: String) = _amount.tryEmit(value)
-  fun setinputAmount(value: String) = _inputAmount.tryEmit(value)
+  fun setInputAmount(value: String) = _inputAmount.tryEmit(value)
   fun setQuery(value: String) = _query.tryEmit(value)
 
   fun clearForm() {
@@ -93,10 +90,13 @@ class LoanViewModel(
     _isAlertVisible.value = !_isAlertVisible.value
     loan?.let {
       val remainder = it.amount - it.paid
-      _inputAmount.value = remainder.toString()
+      _inputAmount.value =
+        if (remainder % 1 == 0.0) remainder.toInt().toString()
+        else remainder.toString()
     }
     _error.value = ""
   }
+
   fun toggleSearchMode() {
     _searchMode.value = !_searchMode.value
     _query.value = ""
@@ -146,36 +146,54 @@ class LoanViewModel(
 
   fun deleteLoan(loan: Loan) {
     viewModelScope.launch {
-      val deleted = loan.copy(isDeleted = true)
-      dao.updateLoan(deleted)
+      dao.deleteLoan(loan)
     }
   }
 
   fun updateLoan(loan: Loan) {
     if (_inputAmount.value.isBlank()) {
       _error.value = "Please enter a valid amount"
+      setActionPay()
       return
     }
+
     viewModelScope.launch {
-      val inputAmount = loan.paid + _inputAmount.value.toDouble()
-      val newAmount = loan.amount + _inputAmount.value.toDouble()
-      val updatedLoan = loan.copy(
-        paid = if (_updateAction.value == LoanAction.PAY) inputAmount else loan.paid,
-        amount = if (_updateAction.value == LoanAction.INCREASE) newAmount else loan.amount,
-        updatedAt = System.currentTimeMillis(),
-        status = when {
-          loan.amount > inputAmount -> LoanStatus.PARTIAL
-          loan.amount <= inputAmount -> LoanStatus.PAID
-          else -> LoanStatus.PENDING
+      val delta = _inputAmount.value.toDouble()
+      var newPaid = loan.paid
+      var newAmount = loan.amount
+
+      when (_updateAction.value) {
+        LoanAction.PAY -> {
+          newPaid = loan.paid + delta
         }
+        LoanAction.INCREASE -> {
+          newAmount = loan.amount + delta
+        }
+      }
+      // determine status
+      val newStatus = when {
+        newPaid == 0.0 -> LoanStatus.NOT_PAID
+        newPaid < newAmount -> LoanStatus.PARTIAL
+        newPaid == newAmount -> LoanStatus.PAID
+        else -> LoanStatus.PAID
+      }
+
+      val updatedLoan = loan.copy(
+        amount = newAmount,
+        paid = newPaid,
+        status = newStatus,
+        updatedAt = System.currentTimeMillis()
       )
+
       dao.updateLoan(updatedLoan)
       clearForm()
       toggleShowAlert(null)
+      _updateAction.value = LoanAction.PAY
       _error.value = ""
     }
   }
+
 }
 
-enum class LoanFilter { ALL, PAID, DELETED, PART_PAID, NOT_PAID}
+enum class LoanFilter { ALL, PAID, PART_PAID, NOT_PAID}
 enum class LoanAction { PAY, INCREASE }

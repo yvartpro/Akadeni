@@ -9,10 +9,9 @@ data class Loan(
   val name: String,
   val amount: Double,
   val paid: Double = 0.0,
-  val status: LoanStatus = LoanStatus.PENDING,
-  val isDeleted: Boolean = false,
+  val status: LoanStatus = LoanStatus.NOT_PAID,
   val updatedAt: Long = System.currentTimeMillis(),
   val createdAt: Long = System.currentTimeMillis()
 )
 
-enum class LoanStatus { PENDING, PAID, PARTIAL}
+enum class LoanStatus { PAID, PARTIAL, NOT_PAID}

@@ -33,7 +33,6 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf
@@ -73,6 +72,10 @@ fun NavGraph(
 
   val drawerState = rememberDrawerState(DrawerValue.Closed)
   val scope = rememberCoroutineScope()
+
+  fun closeDrawer() {
+    scope.launch { drawerState.close() }
+  }
 
   val languages = listOf(
     "rn" to "Kirundi",
@@ -117,32 +120,26 @@ fun NavGraph(
             Column {
               Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
                 Icon(painterResource(R.drawable.money), "all")
-                TextButton(onClick = { viewModel.setAllLoans() }) {
+                TextButton(onClick = { viewModel.setAllLoans(); closeDrawer() }) {
                   Text(localizedString(R.string.all))
                 }
               }
               Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
                 Icon(painterResource(R.drawable.money), "list")
-                TextButton(onClick = { viewModel.setPaid() }) {
+                TextButton(onClick = { viewModel.setPaid(); closeDrawer() }) {
                   Text(localizedString(R.string.paid_txt))
                 }
               }
               Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
                 Icon(painterResource(R.drawable.history), "list")
-                TextButton(onClick = { viewModel.setHistory() }) {
+                TextButton(onClick = { viewModel.setHistory(); closeDrawer() }) {
                   Text(localizedString(R.string.not_paid))
                 }
               }
               Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
                 Icon(Icons.Filled.CheckCircle, "pending")
-                TextButton(onClick = { viewModel.setPartPaid() }) {
+                TextButton(onClick = { viewModel.setPartPaid(); closeDrawer() }) {
                   Text(localizedString(R.string.part_paid))
-                }
-              }
-              Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                Icon(painterResource(R.drawable.recently_deleted), "list")
-                TextButton(onClick = { viewModel.setDeleted() }) {
-                  Text(localizedString(R.string.recently_deleted))
                 }
               }
               Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
@@ -150,7 +147,7 @@ fun NavGraph(
                 DropDownMenu(
                   menuItems = languages,
                   label = localizedString(R.string.lang),
-                  onItemClick = { selectedCode-> onLangChange(selectedCode) }
+                  onItemClick = { selectedCode-> onLangChange(selectedCode); closeDrawer() }
                 )
               }
             }

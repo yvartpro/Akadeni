@@ -50,14 +50,26 @@ fun HomeScreen(
   val filter by viewModel.filter.collectAsState()
 
   val filteredLoans = when (filter) {
-    LoanFilter.DELETED -> loans.filter { it.isDeleted }.sortedByDescending { it.createdAt }
-    LoanFilter.NOT_PAID -> loans.filter { it.paid < it.amount }.sortedByDescending { it.createdAt }
-    LoanFilter.PART_PAID -> loans.filter { it.paid > 0 && it.paid < it.amount }.sortedByDescending { it.createdAt }
-    LoanFilter.PAID -> loans.filter { it.paid >= it.amount }.sortedByDescending { it.createdAt }
-    else -> loans.filter { !it.isDeleted }.filter { it.name.contains(query,ignoreCase = true) }.sortedWith(
-      compareBy<Loan> { it.status == LoanStatus.PAID }.thenByDescending { it.updatedAt }
-    )
+    LoanFilter.NOT_PAID ->
+      loans.filter { it.paid == 0.0 }.sortedByDescending { it.createdAt }
+
+    LoanFilter.PART_PAID ->
+      loans.filter { it.paid > 0 && it.paid < it.amount }.sortedByDescending { it.createdAt }
+
+    LoanFilter.PAID ->
+      loans.filter { it.paid >= it.amount }.sortedByDescending { it.createdAt }
+
+    else -> {
+      loans
+        .filter { it.name.contains(query, ignoreCase = true) }
+        .sortedWith(
+          compareByDescending<Loan> { it.paid == 0.0 }        // unpaid first
+            .thenByDescending { it.paid < it.amount }      // then partial
+            .thenByDescending { it.updatedAt }             // then sorted
+        )
+    }
   }
+
 
   val context = LocalContext.current
 
