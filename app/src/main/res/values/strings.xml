@@ -18,7 +18,7 @@
     <string name="not_paid">Not paid</string>
     <string name="recently_deleted">Recently deleted</string>
     <string name="lang">Choose language</string>
-    <string name="powered" translatable="false">Inaendeshwa na Vovota Company</string>
+    <string name="powered" translatable="false">Powered by Vovota Company</string>
     <string name="part_paid">Partially paid</string>
     <string name="paid_txt">Paid</string>
     <string name="all">All</string>
