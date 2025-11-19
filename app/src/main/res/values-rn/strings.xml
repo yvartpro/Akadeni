@@ -13,10 +13,15 @@
     <string name="enter_paid">Injizamwo ayarishwe na %s</string>
     <string name="create_loan">Akandi kadeni</string>
     <string name="touch_2">Korako irindi usohoke</string>
-    <string name="not_paid">Ayatararihwa</string>
+    <string name="not_paid">Ibitararihwa</string>
     <string name="recently_deleted">Ivyafuswe</string>
-    <string name="lang">Ururmi</string>
+    <string name="lang">Hitamwo ururmi</string>
     <string name="part_paid">Ivyarishwe igice</string>
-    <string name="paid_txt">Ivyarshwe</string>
+    <string name="paid_txt">Ivyarishwe</string>
     <string name="all">Vyose</string>
+    <string name="enter_increase">Injiza ayongewe kw\'ideni rya %s</string>
+    <string name="amount_paid">Ayarihwa</string>
+    <string name="amount_to_add">Akandi kadeni</string>
+    <string name="pay">Riha</string>
+    <string name="add">Ongerako akadeni</string>
 </resources>

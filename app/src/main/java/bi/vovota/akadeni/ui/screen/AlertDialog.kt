@@ -127,7 +127,7 @@ fun ActionSelector(
     modifier = Modifier
       .fillMaxWidth()
       .background(
-        color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.4f),
+        color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.01f),
         shape = MaterialTheme.shapes.large
       )
       .padding(4.dp)

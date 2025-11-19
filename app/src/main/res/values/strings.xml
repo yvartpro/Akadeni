@@ -17,7 +17,7 @@
     <string name="unpaid" translatable="false">%s</string>
     <string name="not_paid">Not paid</string>
     <string name="recently_deleted">Recently deleted</string>
-    <string name="lang">Language</string>
+    <string name="lang">Choose language</string>
     <string name="powered" translatable="false">Inaendeshwa na Vovota Company</string>
     <string name="part_paid">Partially paid</string>
     <string name="paid_txt">Paid</string>
@@ -25,8 +25,8 @@
     <string name="enter_increase">Enter amount added to loan of %s</string>
     <string name="amount_paid">Amount to pay</string>
     <string name="amount_to_add">New loan</string>
-    <string name="mark_as_paid">Ok</string>
-    <string name="add_to_loan">Ok</string>
+    <string name="mark_as_paid" translatable="false">Ok</string>
+    <string name="add_to_loan" translatable="false">Ok</string>
     <string name="pay">Pay</string>
     <string name="add">Add loan</string>
 </resources>

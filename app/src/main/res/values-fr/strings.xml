@@ -15,8 +15,13 @@
     <string name="touch_2">Touchez a nouveau pour quitter</string>
     <string name="not_paid">Non payé</string>
     <string name="recently_deleted">Récemment supprimés</string>
-    <string name="lang">Langue</string>
+    <string name="lang">Choisir la langue</string>
     <string name="part_paid">Payés partellement</string>
     <string name="paid_txt">Payé</string>
     <string name="all">Tous</string>
+    <string name="enter_increase">Eentrez la dette ajoutée pour %s</string>
+    <string name="amount_paid">Montant à payer</string>
+    <string name="amount_to_add">Nouvelle dette</string>
+    <string name="pay">Payez</string>
+    <string name="add">Ajouter la dette</string>
 </resources>

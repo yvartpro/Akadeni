@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.outlined.Clear
 import androidx.compose.material.icons.outlined.Menu
 import androidx.compose.material.icons.outlined.Search
@@ -79,7 +78,7 @@ fun NavGraph(
   }
 
   val languages = listOf(
-    "rn" to "Kirundi",
+    "rn" to "Ikirundi",
     "sw" to "Swahili",
     "en" to "English",
     "fr" to "Français"
@@ -96,7 +95,7 @@ fun NavGraph(
   ModalNavigationDrawer(
     drawerState = drawerState,
     drawerContent = {
-      ModalDrawerSheet() {
+      ModalDrawerSheet {
         Column(
           modifier = Modifier
             .fillMaxHeight()
@@ -194,7 +193,7 @@ fun NavGraph(
                   style = MaterialTheme.typography.titleMedium
                 )
                 Text(
-                  text = localizedString(R.string.unpaid, total),
+                  text = if (total > 0) localizedString(R.string.unpaid, total) else "",
                   fontWeight = FontWeight.W400,
                   style = MaterialTheme.typography.bodySmall
                 )

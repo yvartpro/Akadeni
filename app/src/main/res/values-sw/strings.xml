@@ -15,8 +15,13 @@
     <string name="touch_2">Gusa tena ili kutoka</string>
     <string name="not_paid">Haijalipwa</string>
     <string name="recently_deleted">Vilivyofutwa karibuni</string>
-    <string name="lang">Lugha</string>
+    <string name="lang">Chagua lugha</string>
     <string name="part_paid">Vilvyolipwa kwa sehemu</string>
     <string name="paid_txt">Vilivyolipwa</string>
     <string name="all">Vyote</string>
+    <string name="enter_increase">Ingiza deni la kuongeza kwa ajili ya %s</string>
+    <string name="amount_paid">Kiasi cha kulipa</string>
+    <string name="amount_to_add">Deni jipya</string>
+    <string name="pay">Lipa</string>
+    <string name="add">Ongeza deni</string>
 </resources>
