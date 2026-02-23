@@ -151,7 +151,7 @@ fun DueDatePickerRow(
   onClear: () -> Unit,
 ) {
   val context = LocalContext.current
-  val dateFormat = SimpleDateFormat("EEE, d MMM yyyy", Locale.getDefault())
+  val dateFormat = SimpleDateFormat("EEE, d MMM yyyy, HH:mm", Locale.getDefault())
 
   val calendar = Calendar.getInstance()
 
@@ -161,22 +161,33 @@ fun DueDatePickerRow(
       Calendar.getInstance().apply { timeInMillis = dueDate }
     } else calendar
 
-    val dialog = DatePickerDialog(
+    val datePickerDialog = DatePickerDialog(
       context,
       { _: DatePicker, year: Int, month: Int, day: Int ->
-        val selected = Calendar.getInstance().apply {
-          set(year, month, day, 8, 0, 0) // 08:00 on the chosen day
-          set(Calendar.MILLISECOND, 0)
-        }
-        onDateSelected(selected.timeInMillis)
+        // After date is picked, show time picker
+        val timePickerDialog = android.app.TimePickerDialog(
+          context,
+          { _, hour: Int, minute: Int ->
+            val selected = Calendar.getInstance().apply {
+              set(year, month, day, hour, minute, 0)
+              set(Calendar.MILLISECOND, 0)
+            }
+            onDateSelected(selected.timeInMillis)
+          },
+          preselected.get(Calendar.HOUR_OF_DAY),
+          preselected.get(Calendar.MINUTE),
+          true // 24h format
+        )
+        timePickerDialog.show()
       },
       preselected.get(Calendar.YEAR),
       preselected.get(Calendar.MONTH),
       preselected.get(Calendar.DAY_OF_MONTH)
     )
-    // Only allow future dates
-    dialog.datePicker.minDate = System.currentTimeMillis()
-    dialog.show()
+    // Only allow future dates (for the current day, time picker will handle current time check if needed, 
+    // but typically we just allow future dates in date picker).
+    datePickerDialog.datePicker.minDate = System.currentTimeMillis()
+    datePickerDialog.show()
   }
 
   Row(

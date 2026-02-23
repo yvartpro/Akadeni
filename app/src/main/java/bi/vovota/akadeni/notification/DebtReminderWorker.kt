@@ -3,19 +3,18 @@ package bi.vovota.akadeni.notification
 import android.content.Context
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
+import bi.vovota.akadeni.data.local.AppDatabase
+import bi.vovota.akadeni.data.local.model.LoanStatus
+import java.util.concurrent.TimeUnit
 
 /**
- * WorkManager worker that fires a single debt-due notification.
+ * WorkManager worker that fires a debt-due notification and reschedules every 5 days.
  *
  * Design decisions:
- * - Extends [CoroutineWorker] (not [Worker]) so any future async work (e.g. DB query)
- *   runs on the IO dispatcher without blocking the main thread.
- * - All required data is packed into [WorkerParameters.inputData] before enqueueing,
- *   so the worker is self-contained and does NOT need to open the DB.
- *   This makes it resilient to process death: WorkManager persists the input data in
- *   its own SQLite table and retries with the same data after process restart.
- * - Returns [Result.retry] on unexpected exceptions so WorkManager will reschedule
- *   with exponential back-off rather than silently drop the notification.
+ * - Extends [CoroutineWorker] to run DB operations on IO dispatcher.
+ * - Fetches the latest loan data from DB to ensure status is up-to-date.
+ * - If still unpaid, shows notification and schedules the next one (5 days later).
+ * - Updates the loan's [dueDate] in the database to reflect the next reminder.
  */
 class DebtReminderWorker(
     private val ctx: Context,
@@ -31,21 +30,36 @@ class DebtReminderWorker(
 
     override suspend fun doWork(): Result {
         return try {
-            val loanId     = inputData.getInt(KEY_LOAN_ID, -1)
-            val personName = inputData.getString(KEY_PERSON_NAME) ?: return Result.failure()
-            val amount     = inputData.getDouble(KEY_AMOUNT, 0.0)
+            val loanId = inputData.getInt(KEY_LOAN_ID, -1)
+            if (loanId == -1) return Result.failure()
 
-            if (loanId == -1) return Result.failure()  // malformed data – do not retry
+            val dao = AppDatabase.getDatabase(ctx).loanDao()
+            val loan = dao.getLoanById(loanId) ?: return Result.failure()
 
+            // 1. If the debt is already fully paid, we stop the cycle.
+            if (loan.status == LoanStatus.PAID) {
+                return Result.success()
+            }
+
+            // 2. Show the immediate notification.
             NotificationHelper.showReminder(
                 context     = ctx,
                 loanId      = loanId,
-                personName  = personName,
-                amount      = amount,
+                personName  = loan.name,
+                amount      = loan.amount,
             )
+
+            // 3. Schedule the recurrent reminder (5 days from now).
+            // We update the database so the UI also shows the next planned notification.
+            val nextDueDate = System.currentTimeMillis() + TimeUnit.DAYS.toMillis(5)
+            val updatedLoan = loan.copy(dueDate = nextDueDate)
+            
+            dao.updateLoan(updatedLoan)
+            ReminderScheduler.scheduleReminder(ctx, updatedLoan)
+
             Result.success()
         } catch (e: Exception) {
-            // Retry on transient failures (e.g. notification service unavailable at exact moment).
+            // Retry on transient failures (e.g. notification service unavailable).
             Result.retry()
         }
     }

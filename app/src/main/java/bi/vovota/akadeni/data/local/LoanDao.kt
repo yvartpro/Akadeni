@@ -13,6 +13,9 @@ interface LoanDao {
   @Query("SELECT * FROM loan")
   fun getAllLoans(): Flow<List<Loan>>
 
+  @Query("SELECT * FROM loan WHERE id = :id")
+  suspend fun getLoanById(id: Int): Loan?
+
   @Insert
   suspend fun createLoan(loan: Loan)
 
