@@ -29,4 +29,12 @@
     <string name="add_to_loan" translatable="false">Ok</string>
     <string name="pay">Pay</string>
     <string name="add">Add loan</string>
+    <!-- Debt reminder notification -->
+    <string name="notification_channel_name">Debt Reminders</string>
+    <string name="notification_channel_desc">Reminds you when a debt payment is due</string>
+    <string name="notification_body">Payment of %1$.2f is due today</string>
+    <!-- Due date picker -->
+    <string name="set_due_date">Set reminder date</string>
+    <string name="due_date_set">Reminder: %s</string>
+    <string name="clear_date">Clear date</string>
 </resources>

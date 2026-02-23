@@ -74,4 +74,6 @@ dependencies {
   implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
   //dataStore
   implementation("androidx.datastore:datastore-preferences:1.0.0")
+  //WorkManager – debt reminder notifications
+  implementation("androidx.work:work-runtime-ktx:2.9.0")
 }

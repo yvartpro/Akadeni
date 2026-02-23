@@ -48,6 +48,7 @@ fun HomeScreen(
   val query by viewModel.query.collectAsState()
   val error by viewModel.error.collectAsState()
   val filter by viewModel.filter.collectAsState()
+  val dueDate by viewModel.dueDate.collectAsState()
 
   val filteredLoans = when (filter) {
     LoanFilter.NOT_PAID ->
@@ -100,6 +101,12 @@ fun HomeScreen(
           label = localizedString(R.string.amount),
           keyboardType = KeyboardType.Number,
           leading = painterResource(R.drawable.money)
+        )
+        // Due-date picker — optional reminder for this loan
+        DueDatePickerRow(
+          dueDate = dueDate,
+          onDateSelected = { viewModel.setDueDate(it) },
+          onClear = { viewModel.setDueDate(null) }
         )
         Row(
           modifier = Modifier.fillMaxWidth().padding(vertical = Spacings.sm()),
